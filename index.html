@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a373f" />
+    <meta name="description" content="T Waterter — a quiet Caribbean fishing escape." />
+    <title>T Waterter — 岛屿垂钓</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="mobile.css" />
+    <style>.location-tag{pointer-events:auto}</style>
+  </head>
+  <body>
+    <main class="game-shell">
+      <canvas id="gpu-canvas" aria-label="T Waterter 海岛垂钓场景"></canvas>
+      <canvas id="fallback-canvas" aria-hidden="true"></canvas>
+      <div class="scene-vignette" aria-hidden="true"></div>
+
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="T Waterter 首页">
+          <span class="brand-mark"><span></span><span></span><span></span></span>
+          <span class="brand-name">T<span>W</span></span>
+          <span class="brand-divider"></span>
+          <span class="brand-place">BLUE COVE<br /><b>CARIBBEAN · 07° 12′ N</b></span>
+        </a>
+        <div class="top-stats">
+          <div class="weather-pill"><span class="weather-icon" id="weather-icon">☼</span><span><b id="weather-label">晴朗</b><small>海风 <i id="wind-label">微风</i></small></span></div>
+          <div class="time-pill"><span class="sun-track"><i id="sun-dot"></i></span><span><b id="clock-label">07:42</b><small id="day-label">第 1 天 · 黎明</small></span></div>
+          <div class="coin-pill"><span class="coin-icon">✦</span><span id="coin-label">$ 240</span></div>
+        </div>
+        <button class="icon-button sound-toggle" id="sound-toggle" title="声音开关" aria-label="声音开关">♫</button>
+        <button class="icon-button fullscreen-toggle" id="fullscreen-toggle" title="全屏 (F)" aria-label="切换全屏">⛶</button>
+      </header>
+
+      <section class="scene-labels" aria-live="polite">
+        <button class="location-tag" id="location-tag" aria-label="切换钓鱼地点"><span class="live-dot"></span><span><b>PALM POINT</b><small>南侧栈桥</small></span></button>
+        <div class="scene-toast" id="scene-toast" aria-live="assertive"></div>
+      </section>
+
+      <aside class="left-rail">
+        <div class="rail-card profile-card">
+          <div class="level-badge" id="level-badge">01</div>
+          <div class="profile-copy"><small>岛民等级</small><b id="level-name">海风新手</b></div>
+          <div class="xp-track"><i id="xp-fill"></i></div>
+          <small class="xp-label" id="xp-label">0 / 80 XP</small>
+        </div>
+        <button class="rail-card compact-card" id="codex-open">
+          <span class="card-icon fish-icon">◒</span><span><small>鱼类图鉴</small><b><i id="codex-count">0</i> / 18 <em>已发现</em></b></span><span class="chevron">›</span>
+        </button>
+        <div class="rail-card catch-card">
+          <div class="section-kicker">今日渔获 <span id="haul-count">0</span></div>
+          <div class="catch-list" id="catch-list"><div class="empty-catch">还没有渔获<br /><span>等一阵海风吧</span></div></div>
+          <button class="sell-button" id="sell-button"><span>卖给渔夫 Elias</span><b>›</b></button>
+        </div>
+        <button class="rail-card compact-card shop-open" id="shop-open">
+          <span class="card-icon shop-icon">⌁</span><span><small>码头杂货铺</small><b>升级装备 <em>3 件可购</em></b></span><span class="chevron">›</span>
+        </button>
+      </aside>
+
+      <div class="scene-caption"><span class="caption-line"></span><span><b>PALM POINT</b><small>水深 4.2 m · 潮汐正在上涨</small></span></div>
+      <div class="fishing-notice" id="fishing-notice" role="status"></div>
+      <div class="bite-indicator" id="bite-indicator"><span class="bite-ripple"></span><span>有鱼咬钩！</span></div>
+
+      <section class="fishing-dock" id="fishing-dock" aria-label="钓鱼操作">
+        <div class="rod-status">
+          <span class="rod-icon">⌁</span><span><small id="rod-label">珊瑚海 · 轻型竿</small><b id="fishing-state">准备就绪</b></span>
+        </div>
+        <button class="primary-action" id="cast-button"><span class="action-glyph">↗</span><span><b>抛竿</b><small>SPACE</small></span><i class="button-sheen"></i></button>
+        <div class="fight-panel" id="fight-panel" aria-hidden="true">
+          <div class="tension-copy"><span>鱼线张力</span><b><i id="tension-value">0</i><small>%</small></b></div>
+          <div class="tension-track"><i class="tension-safe"></i><i class="tension-zone"></i><i class="tension-needle" id="tension-needle"></i></div>
+          <div class="tension-hints"><span>松线</span><span>遛鱼甜蜜区</span><span>断线危险</span></div>
+          <div class="fish-energy"><span>鱼的体力</span><div><i id="fish-energy-fill"></i></div><b id="fish-energy-label">100%</b></div>
+        </div>
+        <button class="reel-action" id="reel-button" aria-label="按住收线">
+          <span class="reel-symbol">⟳</span><span><b>按住收线</b><small>HOLD TO REEL</small></span>
+        </button>
+        <div class="dock-hint" id="dock-hint"><span class="hint-key">SPACE</span><span>抛竿，等待鱼讯</span><span class="hint-separator">·</span><span class="hint-key">F</span><span>沉浸视野</span></div>
+      </section>
+
+      <div class="dock-readout"><span class="readout-wave">〰</span><span><b id="water-readout">海面平静</b><small>珊瑚湾 · 近岸水域</small></span></div>
+      <div class="gpu-badge" id="renderer-badge"><i></i><span>自研渲染引擎</span></div>
+
+      <div class="modal-backdrop" id="modal-backdrop" hidden>
+        <section class="modal-card" id="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+          <button class="modal-close" id="modal-close" aria-label="关闭">×</button>
+          <div class="modal-overline" id="modal-overline">FIELD NOTES · 01</div>
+          <h2 id="modal-title"></h2>
+          <div class="modal-content" id="modal-content"></div>
+        </section>
+      </div>
+      <div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+    </main>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

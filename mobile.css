@@ -1,0 +1,83 @@
+/* Mobile-first interaction overrides for the fishing scene and touch controls. */
+html,body{min-height:100%;overscroll-behavior:none}
+.game-shell{height:100vh;height:100dvh;min-height:0;touch-action:manipulation}
+#gpu-canvas,#fallback-canvas{touch-action:none}
+
+@media(max-width:650px){
+  .game-shell{min-height:0}
+  .topbar{top:0;height:calc(61px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) max(11px,env(safe-area-inset-right,0px)) 0 max(11px,env(safe-area-inset-left,0px));}
+  .scene-labels{top:calc(72px + env(safe-area-inset-top,0px));}
+  .left-rail{left:max(10px,env(safe-area-inset-left,0px));right:max(10px,env(safe-area-inset-right,0px));top:calc(119px + env(safe-area-inset-top,0px));bottom:auto;width:auto;display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+  .left-rail .profile-card{display:none}
+  .left-rail .compact-card{min-height:46px}
+  .left-rail .catch-card{position:fixed;left:max(10px,env(safe-area-inset-left,0px));bottom:calc(104px + env(safe-area-inset-bottom,0px));display:block;width:min(47vw,174px);padding:8px 9px;}
+  .catch-list{height:37px;margin:3px -1px;}
+  .catch-row{grid-template-columns:20px 1fr auto;gap:5px;padding:4px 0}
+  .catch-emoji{font-size:15px}
+  .catch-info b{font-size:9px}
+  .catch-info small{font-size:8px}
+  .catch-price{font-size:8px}
+  .sell-button{height:28px;font-size:9px}
+  .shop-open{grid-column:2;}
+  .scene-caption{display:none}
+  .dock-readout{right:max(11px,env(safe-area-inset-right,0px));bottom:calc(112px + env(safe-area-inset-bottom,0px));}
+  .fishing-dock{left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:calc(100% - 20px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px));min-height:68px;padding:8px;gap:8px;justify-content:space-between;}
+  .rod-status{display:none}
+  .primary-action,.reel-action{height:52px;min-height:52px;min-width:0;flex:1 1 0;justify-content:center;padding:0 8px;border-radius:11px;}
+  .primary-action{max-width:145px}
+  .reel-action{max-width:165px}
+  .primary-action b,.reel-action b{font-size:12px}
+  .primary-action small,.reel-action small{font:9px "DM Sans",sans-serif;letter-spacing:0;opacity:.82;margin-top:4px}
+  .reel-action .reel-symbol{font-size:25px}
+  .fight-panel{position:absolute;left:0;right:0;top:auto;bottom:calc(100% + 8px);width:auto;padding:9px 12px;border:1px solid rgba(255,255,255,.26);border-radius:11px;background:rgba(15,53,56,.9);backdrop-filter:blur(12px);box-shadow:0 8px 22px rgba(4,34,37,.2)}
+  .tension-track{height:13px;margin-top:7px}
+  .tension-needle{height:21px}
+  .tension-hints{font-size:8px}
+  .fish-energy{font-size:9px}
+  .dock-hint{display:none}
+  .gpu-badge{bottom:calc(5px + env(safe-area-inset-bottom,0px));right:max(8px,env(safe-area-inset-right,0px));}
+  .bite-indicator{left:50%;top:46%;transform:translate(-50%,8px) scale(.97);white-space:nowrap}
+  .bite-indicator.show{transform:translate(-50%,0) scale(1)}
+  .fishing-notice{top:39%;width:max-content;max-width:90%;text-align:center}
+  .modal-backdrop{padding:max(12px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) max(12px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));}
+  .modal-card{width:min(480px,100%);max-height:calc(100dvh - 32px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));padding:25px 18px 20px;border-radius:15px;}
+  .modal-card h2{font-size:22px}
+  .codex-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .codex-cell{min-height:68px}
+  .toast-stack{top:calc(75px + env(safe-area-inset-top,0px));width:max-content;max-width:calc(100% - 24px)}
+}
+
+@media(max-width:380px){
+  .topbar{gap:6px}
+  .brand{min-width:78px}
+  .brand-mark{display:none}
+  .top-stats{gap:4px}
+  .weather-pill{display:none}
+  .time-pill{padding:0 6px}
+  .coin-pill{min-width:59px}
+  .left-rail{top:calc(113px + env(safe-area-inset-top,0px));}
+  .fishing-dock{width:calc(100% - 14px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px));gap:6px;padding:7px}
+  .primary-action,.reel-action{height:49px;min-height:49px}
+  .primary-action{max-width:none}
+  .reel-action{max-width:none}
+  .action-glyph{width:23px;height:23px;font-size:13px}
+  .primary-action b,.reel-action b{font-size:11px}
+  .dock-readout small{max-width:125px}
+}
+
+@media(max-width:900px) and (orientation:landscape){
+  .topbar{height:calc(53px + env(safe-area-inset-top,0px));padding-top:env(safe-area-inset-top,0px)}
+  .scene-labels{top:calc(62px + env(safe-area-inset-top,0px));left:12px}
+  .left-rail{left:12px;right:auto;top:calc(110px + env(safe-area-inset-top,0px));bottom:auto;width:164px;display:grid;grid-template-columns:1fr;gap:6px}
+  .left-rail .compact-card{min-height:42px}
+  .left-rail .catch-card{position:fixed;left:12px;bottom:calc(70px + env(safe-area-inset-bottom,0px));width:164px;padding:7px 8px}
+  .catch-list{height:30px}
+  .scene-caption{display:none}
+  .fishing-dock{bottom:calc(7px + env(safe-area-inset-bottom,0px));min-height:60px;width:auto;max-width:calc(100% - 210px);padding:6px 9px;gap:8px}
+  .rod-status{display:flex;min-width:112px}
+  .fight-panel{position:static;width:205px;padding:0 4px;border:0;background:transparent;box-shadow:none}
+  .fight-panel.active{display:block}
+  .dock-hint{display:none}
+  .dock-readout{bottom:calc(83px + env(safe-area-inset-bottom,0px));right:12px}
+  .gpu-badge{bottom:calc(4px + env(safe-area-inset-bottom,0px));right:8px}
+}
